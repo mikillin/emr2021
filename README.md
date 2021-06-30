@@ -1,1 +1,5 @@
-# emr2021
+# EMR2021
+Mitglieder:
+- Marcel Heinen
+- Sergey Rogachevsky
+- Yosua Kurniawan
