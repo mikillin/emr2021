@@ -2,8 +2,8 @@ from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import RecognizeCallback, AudioSource 
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import speech_recognition as sr
-apikey = 'bf5PikK1pKAzKWWBVKSIcJTRKCZZ1Ty-Mizqsnog2-i4'
-url = 'https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/c94da279-2d44-4c49-97ba-1c958331973e'
+apikey = ''
+url = ''
 
 authenticator = IAMAuthenticator(apikey)
 stt = SpeechToTextV1(authenticator=authenticator)
