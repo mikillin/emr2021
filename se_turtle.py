@@ -20,7 +20,6 @@ def init():
 def get_audio():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        # print("Speak Anything :")
         audio = r.listen(source)
         text = ""
         try:
