@@ -36,4 +36,7 @@ pyaudio:
 10.8.2021
 - add se_turtle.py & se_turtle_thread.py
 
+13.9.2021
+- add our first turtlesim demo
+
 
