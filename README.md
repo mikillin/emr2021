@@ -1,4 +1,4 @@
-# EMR2021
+# EMR2021 - Speech Recognition
 Mitglieder:
 - Marcel Heinen
 - Sergey Rogachevsky
