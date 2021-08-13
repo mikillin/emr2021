@@ -19,6 +19,7 @@ Library:
 
 Speech Recognition:
 - $ pip install SpeechRecognition
+
 FOR WINDOWS USER NEED TO ADD:
 - $ pip install pipwin
 - $ pipwin install pyaudio
