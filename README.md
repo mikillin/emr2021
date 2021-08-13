@@ -25,6 +25,7 @@ FOR WINDOWS USER NEED TO ADD:
 - $ pipwin install pyaudio
 
 Package:
-- rospy:
+
+rospy:
 - $ sudo apt update
 - $ sudo apt install python-rospy
