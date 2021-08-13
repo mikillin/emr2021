@@ -17,13 +17,14 @@ Mitglieder:
 
 Library:
 
-- Speech Recognition
+- Speech Recognition:
 $ pip install SpeechRecognition
+
 FOR WINDOWS USER
 $ pip install pipwin
 $ pipwin install pyaudio
 
 Package:
-- rospy
+- rospy:
 $ sudo apt update
 $ sudo apt install python-rospy
