@@ -16,8 +16,12 @@ Speech Recognition:
 Package:
 
 rospy:
-- $ sudo apt update
+
 - $ sudo apt install python-rospy
+
+pyaudio:
+
+- $ sudo apt install python3-pyaudio
 
 **Changelog**
 
