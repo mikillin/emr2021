@@ -138,11 +138,12 @@ def phrasing_audio_distance():
     while determine_distance: 
         print("Give distance value (number):")
         text_lst_distance = get_audio()
+
         if isinstance(text_lst_distance, str) == True and str.isdigit(text_lst_distance) == False: # check if text_lst_distance recieve any string and if it can be converted to an int
             print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
             determine_distance = True
 
-        elif  int(text_lst_distance) < max_distance: # text_lst_distance must recieve string value that is able to convert as int
+        elif  int(text_lst_distance) < max_distance: # text_lst_distance must recieve string value that is able to be converted to an int
             distance = text_lst_distance
             print(distance + " m")
             determine_distance = False
@@ -171,10 +172,6 @@ def move():
             msg.linear.y = abs(speed)
         elif direction == 'right':
             msg.linear.y = -abs(speed)    
-        # else:
-        # 	msg.linear.x = 0
-        #   msg.linear.y = 0
-
             
         distance_moved = 0.0
         loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
@@ -186,8 +183,6 @@ def move():
                 velocity_publisher.publish(msg)
 
                 loop_rate.sleep()
-                
-                #rospy.Duration(1.0)
                 
                 distance_moved = abs(0.5 * math.sqrt(((x-x0) ** 2) + ((y-y0) ** 2)))
                 print(distance_moved)               
