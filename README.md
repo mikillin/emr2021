@@ -41,5 +41,6 @@ pyaudio:
 
 14.8.2021
 - fixed known bug se_turtle_demo1.py : phrasing_audio_distance()
+- add se_youbot-gazebo_demo1.py (WIP)
 
 
