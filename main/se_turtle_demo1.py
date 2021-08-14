@@ -1,3 +1,44 @@
+########################################
+# EMR 2021 PROJEKT - SPRACH EREKENNUNG #
+########################################
+
+# Mitglieder:
+
+#     Marcel Heinen
+#     Sergey Rogachevsky
+#     Yosua Kurniawan
+
+# se_turtle_demo1.py Tested and work Python 3.8.10 (14.08.2021)
+
+# Library:
+
+# Speech Recognition:
+
+#     $ pip install SpeechRecognition
+
+# FOR WINDOWS USER NEED TO ADD:
+
+#     $ pip install pipwin
+#     $ pipwin install pyaudio
+
+# Package:
+
+# rospy:
+
+#     $ sudo apt install python-rospy
+
+# pyaudio:
+
+#     $ sudo apt install python3-pyaudio
+
+
+# Terminal:
+
+# $ roscore
+# $ rosrun turtlesim turtlesim_node
+
+######################################################################
+
 import speech_recognition as sr
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
@@ -97,11 +138,16 @@ def phrasing_audio_distance():
     while determine_distance: 
         print("Give distance value (number):")
         text_lst_distance = get_audio()
-        if  int(text_lst_distance) < max_distance:
+        if isinstance(text_lst_distance, str) == True and str.isdigit(text_lst_distance) == False: # check if text_lst_distance recieve any string and if it can be converted to an int
+            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
+            determine_distance = True
+
+        elif  int(text_lst_distance) < max_distance: # text_lst_distance must recieve string value that is able to convert as int
             distance = text_lst_distance
             print(distance + " m")
             determine_distance = False
             return distance
+
         else:
             print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
             determine_distance = True
