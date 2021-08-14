@@ -36,7 +36,10 @@ pyaudio:
 10.8.2021
 - add se_turtle.py & se_turtle_thread.py
 
-13.9.2021
+13.8.2021
 - add our first turtlesim demo
+
+14.8.2021
+- fixed known bug se_turtle_demo1.py : phrasing_audio_distance()
 
 
