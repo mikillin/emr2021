@@ -8,7 +8,7 @@
 #     Sergey Rogachevsky
 #     Yosua Kurniawan
 
-# se_youbot-gazebo_demo1.py Python 3.8.10 tested and works (15.08.2021) 
+# se_youbot-gazebo_demo2.py Python 3.8.10 tested and works (15.08.2021) 
 
 # Known Issues:
 
@@ -55,7 +55,7 @@ yaw=0
 
 
 def init():
-    global msg, velocity_publisher, pose_subscriber
+    global msg, velocity_publisher
 
     msg = Twist()
     msg.linear.x = 0
@@ -95,7 +95,7 @@ def phrasing_audio_direction():
     determine_direction = True
 
     while determine_direction: 
-        print("Give direction input (forward, backward, left, right) :")
+        print("Give direction input (forward, backward, left, right, stop, exit) :")
         text_lst_direction = get_audio()
         if "forward" in text_lst_direction:
             print("Moving Forward")
@@ -138,7 +138,8 @@ def move():
         global x, y, speed
 
         speed = 0.1 # define the speed of turtle
-        direction = "INITIAZION SUCSESS, AWAITING ORDER" # INITIAZION
+
+        direction = "INITIAZION SUCCESS, AWAITING ORDER" # INITIAZION
 
         loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
         cmd_vel_topic = '/cmd_vel'
@@ -169,7 +170,7 @@ def move():
                     rospy.loginfo("Exit Program")
                     break
         
-        #finally, stop the robot when quit the program
+        #finally, stop the robot after exit
         msg.linear.x =0
         msg.linear.y =0
         velocity_publisher.publish(msg)
