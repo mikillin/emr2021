@@ -8,7 +8,11 @@
 #     Sergey Rogachevsky
 #     Yosua Kurniawan
 
-# se_turtle_demo1.py Tested and work Python 3.8.10 (14.08.2021)
+# se_turtle_demo1.py tested and works Python 3.8.10 (14.08.2021)
+
+# Known Issues:
+
+# none so far
 
 # Library:
 
