@@ -47,4 +47,8 @@ pyaudio:
 - fixed typo
 - add se_youbot-gazebo_demo2.py
 
+18.8.2021
+- add se_youbot-real.py (WIP)
+- thread (WIP)
+
 
