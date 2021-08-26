@@ -1,0 +1,5 @@
+<launch>
+	<node pkg="w_hs" type="drive.py" name="semesterarbeit_control_bot"/>
+	<node pkg="w_hs" type="se_bot.py" name="semesterarbeit_speech_recognition"/>
+</launch> 
+
