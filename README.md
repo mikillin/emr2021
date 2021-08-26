@@ -25,7 +25,13 @@ rospy:
 
 pyaudio:
 
-- $ sudo apt install python3-pyaudio
+- $ sudo apt install python3-pyaudio+
+
+pocketsphinx:
+- $ sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+- $ sudo apt-get install swig3.0 **or** $ sudo apt-get install swig (only god knows)
+
+- $ sudo pip install pocketsphinx
 
 **Changelog**
 
