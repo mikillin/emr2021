@@ -4,16 +4,20 @@ Mitglieder:
 - Sergey Rogachevsky
 - Yosua Kurniawan
 
-Library:
+**Packages & Library:**
 
 Speech Recognition:
 - $ pip install SpeechRecognition
+
+PyAudio:
 
 **FOR WINDOWS USER NEED TO ADD:**
 - $ pip install pipwin
 - $ pipwin install pyaudio
 
-Package:
+**FOR UBUNTU USER NEED TO ADD:**
+- $ sudo apt-get install portaudio19-dev python3-pyaudio
+- $ pip install PyAudio
 
 rospy:
 
