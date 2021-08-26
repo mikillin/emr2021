@@ -1,0 +1,10 @@
+Solves Error
+ Configuration file path: /home/youbot/catkin_ws/src/youbot_driver/config
+[ERROR] [1629978366.324564528]: No EtherCAT connection:
+[FATAL] [1629978366.324638759]: No socket connection on eno1
+Excecute as root
+
+=>
+
+sudo setcap cap_net_raw+ep ~/catkin_ws/devel/lib/youbot_driver_ros_interface/youbot_driver_ros_interface
+
