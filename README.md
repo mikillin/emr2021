@@ -51,4 +51,5 @@ pyaudio:
 - add se_youbot-real.py (WIP)
 - thread (WIP)
 
-
+26.8.2021
+- add separate node for speech recognition and drive
