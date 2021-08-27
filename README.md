@@ -63,3 +63,6 @@ pocketsphinx:
 
 26.8.2021
 - add separate node for speech recognition and drive
+
+27.8.2021
+- add finished and working demos
