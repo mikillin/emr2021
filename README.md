@@ -66,3 +66,4 @@ pocketsphinx:
 
 27.8.2021
 - add finished and working demos
+- remove virtual enviroment
