@@ -4,7 +4,7 @@ Mitglieder:
 - Sergey Rogachevsky
 - Yosua Kurniawan
 
-**demo video: **
+**demo video **
 https://w-hs.sciebo.de/s/M9ncWKq2FtLYsjF
 
 **Packages & Library:**
