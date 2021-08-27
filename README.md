@@ -4,6 +4,9 @@ Mitglieder:
 - Sergey Rogachevsky
 - Yosua Kurniawan
 
+**demo video**
+https://w-hs.sciebo.de/f/228032860
+
 **Packages & Library:**
 
 Speech Recognition:
