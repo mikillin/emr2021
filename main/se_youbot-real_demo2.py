@@ -8,10 +8,11 @@
 #     Sergey Rogachevsky
 #     Yosua Kurniawan
 
-# se_youbot-gazebo_demo2.py Python 3.8.10 tested and works (15.08.2021) 
+# se_youbot-real_demo2.py Python 3.8.10 tested and works (26.08.2021) 
 
 # Known Issues:
-# none so far
+# time delay between Computer due to wireless connection (Real Robot when using wireless connectivity)
+# awful sphinx audio accuracy
 
 # Library and Packages:
 
@@ -29,6 +30,15 @@
 #     $ sudo apt-get install portaudio19-dev python3-pyaudio
 #     $ pip install PyAudio
 
+# pocketsphinx:
+
+#     $ sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+#     $ sudo apt-get install swig3.0 or $ sudo apt-get install swig (only god knows)
+
+#     $ sudo pip install pocketsphinx
+
+
 # rospy:
 
 #     $ sudo apt install python-rospy
@@ -37,12 +47,9 @@
 
 #     $ sudo apt install python3-pyaudio
 
+# In real youBot (the same as roscore terminal):
 
-# Terminal:
-
-# $ roscore
-# $ ~/catkin_ws/src/emr/emr_youbot/launch
-# $ roslaunch youbot_emr_simulation_empty_gazebo.launch
+# roslaunch youbot_driver_ros_interface youbot_driver.launch
 
 ######################################################################
 
@@ -53,6 +60,9 @@ import time
 
 x=0
 y=0
+z=0
+yaw=0
+
 
 def init():
     global msg, velocity_publisher
@@ -62,6 +72,7 @@ def init():
     msg.linear.y = 0
     msg.angular.x = 0
     msg.angular.y = 0
+    msg.angular.z = 0
 
     try:
         
@@ -82,7 +93,8 @@ def get_audio():
         audio = r.listen(source)
         text = ""
         try:
-            text = r.recognize_google(audio)
+            # text = r.recognize_google(audio)
+            text = r.recognize_sphinx(audio)
             print(text)
         except:
             print("Unrecognizeable")
@@ -122,6 +134,19 @@ def phrasing_audio_direction():
             direction = "stop"
             determine_direction = False
             return direction  
+
+        elif "counter" in text_lst_direction:
+            print("counter")
+            direction = "counter"
+            determine_direction = False
+            return direction  
+
+        elif "clockwise" in text_lst_direction:
+            print("clockwise")
+            direction = "clockwise"
+            determine_direction = False
+            return direction  
+    
         elif "exit" in text_lst_direction:
             print("Exit Program")
             direction = "exit"
@@ -135,9 +160,9 @@ def move():
         # declare a Twist message to send velocity commands
         msg = Twist()
 
-        global x, y, speed
+        global x, y, z, speed
 
-        speed = 0.3 # define the speed of turtle
+        speed = 0.1 # define the speed of turtle
 
         direction = "INITIAZION SUCCESS, AWAITING ORDER" # INITIAZION
 
@@ -165,14 +190,39 @@ def move():
                     msg.linear.y = -abs(speed)
                 elif direction == 'stop':
                     msg.linear.x = 0
-                    msg.linear.y = 0               
+                    msg.linear.y = 0     
+                    msg.angular.x = 0
+                    msg.angular.y = 0
+                    msg.angular.z = 0                         
+                elif direction == 'clockwise':
+                    msg.linear.x = 0
+                    msg.linear.y = 0
+                    msg.angular.x = -abs(speed)               
+                    msg.angular.y = -abs(speed)               
+                    msg.angular.z = -abs(speed)               
+                elif direction == 'counter':
+                    msg.linear.x = 0
+                    msg.linear.y = 0 
+                    msg.angular.x = abs(speed)
+                    msg.angular.y = abs(speed)
+                    msg.angular.z = abs(speed)
                 elif  direction == "exit":
+                    msg.linear.x = 0
+                    msg.linear.y = 0
+                    msg.angular.x = 0
+                    msg.angular.y = 0
+                    msg.angular.z = 0
+                              
                     rospy.loginfo("Exit Program")
                     break
         
         # finally, stop the robot after exit
-        msg.linear.x =0
-        msg.linear.y =0
+        msg.linear.x = 0
+        msg.linear.y = 0
+        msg.angular.x = 0
+        msg.angular.y = 0
+        msg.angular.z = 0
+                    
         velocity_publisher.publish(msg)
 
 if __name__ == '__main__':

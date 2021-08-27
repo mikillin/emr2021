@@ -8,10 +8,12 @@
 #     Sergey Rogachevsky
 #     Yosua Kurniawan
 
-# se_youbot-gazebo_demo1.py Python 3.8.10 tested and works (27.08.2021) 
+# se_youbot-real_demo1.py Python 3.8.10 tested and works (18.08.2021) 
 
 # Known Issues:
-# none so far
+# time delay between Computer due to wireless connection (Real Robot when using wireless connectivity)
+# awful sphinx audio accuracy
+# sphinx audio could not recieve any numerical audio input
 
 # Library and Packages:
 
@@ -29,6 +31,12 @@
 #     $ sudo apt-get install portaudio19-dev python3-pyaudio
 #     $ pip install PyAudio
 
+# pocketsphinx:
+
+#     $ sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+#     $ sudo apt-get install swig3.0 or $ sudo apt-get install swig (only god knows)
+#     $ sudo pip install pocketsphinx
+
 # rospy:
 
 #     $ sudo apt install python-rospy
@@ -37,12 +45,9 @@
 
 #     $ sudo apt install python3-pyaudio
 
+# In real youBot (the same as roscore terminal):
 
-# Terminal:
-
-# $ roscore
-# $ ~/catkin_ws/src/emr/emr_youbot/launch
-# $ roslaunch youbot_emr_simulation_empty_gazebo.launch
+# roslaunch youbot_driver_ros_interface youbot_driver.launch
 
 ######################################################################
 
@@ -97,7 +102,8 @@ def get_audio():
         audio = r.listen(source)
         text = ""
         try:
-            text = r.recognize_google(audio)
+            # text = r.recognize_google(audio)
+            text = r.recognize_sphinx(audio)
             print(text)
         except:
             print("Unrecognizeable")
@@ -140,11 +146,11 @@ def phrasing_audio_distance():
     text_lst_distance = ""
     distance = ""
     determine_distance = True
-    max_distance = 3 #declare max distance
+    max_distance = 3 # declare max distance
 
     while determine_distance: 
         print("Give distance value (number):")
-        text_lst_distance = get_audio()
+        text_lst_distance = input('Type a int value number 1 - 3') # use string input instead of audio input
 
         if isinstance(text_lst_distance, str) == True and str.isdigit(text_lst_distance) == False: # check if text_lst_distance recieve any string and if it can be converted to an int
             print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN, error: 2")
@@ -161,13 +167,13 @@ def phrasing_audio_distance():
             determine_distance = True
 
 def move():
-        #declare a Twist message to send velocity commands
+        # declare a Twist message to send velocity commands
         msg = Twist()
-        #get current location 
+        # get current location 
         global x, y, speed
         x0=x
         y0=y
-        speed = 0.5 # define the speed of turtle
+        speed = 0.1 # define the speed of turtle
         direction = phrasing_audio_direction()
         distance = phrasing_audio_distance()
 
@@ -197,7 +203,7 @@ def move():
                     rospy.loginfo("reached")
                     break
         
-        #finally, stop the robot when desiered distance reached
+        # finally, stop the robot when desiered distance reached
         msg.linear.x =0
         msg.linear.y =0
         velocity_publisher.publish(msg)
@@ -206,3 +212,4 @@ if __name__ == '__main__':
 
     init()
     move()
+

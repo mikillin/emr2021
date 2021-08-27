@@ -11,10 +11,9 @@
 # se_turtle_demo1.py tested and works Python 3.8.10 (14.08.2021)
 
 # Known Issues:
-
 # none so far
 
-# Library:
+# Library and Packages:
 
 # Speech Recognition:
 
@@ -25,7 +24,10 @@
 #     $ pip install pipwin
 #     $ pipwin install pyaudio
 
-# Package:
+# FOR UBUNTU USER NEED TO ADD:
+
+#     $ sudo apt-get install portaudio19-dev python3-pyaudio
+#     $ pip install PyAudio
 
 # rospy:
 
@@ -68,11 +70,11 @@ def init():
         
         rospy.init_node('se_turtlesim', anonymous=True)
 
-        #declare velocity publisher
+        # declare velocity publisher
         cmd_vel_topic='/turtle1/cmd_vel'
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
 
-        #declare pose subscriber
+        # declare pose subscriber
         position_topic = "/turtle1/pose"
         pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback) 
         time.sleep(2)
@@ -137,7 +139,7 @@ def phrasing_audio_distance():
     text_lst_distance = ""
     distance = ""
     determine_distance = True
-    max_distance = 3 #declare max distance
+    max_distance = 3 # declare max distance
 
     while determine_distance: 
         print("Give distance value (number):")
@@ -158,13 +160,13 @@ def phrasing_audio_distance():
             determine_distance = True
 
 def move():
-        #declare a Twist message to send velocity commands
+        # declare a Twist message to send velocity commands
         msg = Twist()
-        #get current location 
+        # get current location 
         global x, y, speed
         x0=x
         y0=y
-        speed = 0.1 # define the speed of turtle
+        speed = 0.4 # define the speed of turtle
         direction = phrasing_audio_direction()
         distance = phrasing_audio_distance()
 
@@ -194,13 +196,13 @@ def move():
                     rospy.loginfo("reached")
                     break
         
-        #finally, stop the robot when desiered distance reached
+        # finally, stop the robot when desiered distance reached
         msg.linear.x =0
         msg.linear.y =0
         velocity_publisher.publish(msg)
 
 if __name__ == '__main__':
-
+    print("Los geht!")
     init()
     move()
 
