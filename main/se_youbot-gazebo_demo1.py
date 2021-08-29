@@ -45,7 +45,7 @@
 # $ roslaunch youbot_emr_simulation_empty_gazebo.launch
 
 ######################################################################
-
+# import all required libraries
 import speech_recognition as sr
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
@@ -53,25 +53,26 @@ import rospy
 import time
 import math
 
+# define initial position of the robot
 x=0
 y=0
 yaw=0
 
-
+# initiate ros node
 def init():
     global msg, velocity_publisher, pose_subscriber
-
+    # define initial speed to zero
     msg = Twist()
     msg.linear.x = 0
     msg.linear.y = 0
     msg.angular.x = 0
     msg.angular.y = 0
-
+    # create ros node
     try:
         
         rospy.init_node('se_youbot', anonymous=True)
 
-        #declare velocity publisher
+        # declare velocity publisher
         cmd_vel_topic = "/cmd_vel"
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
 
@@ -84,26 +85,27 @@ def init():
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
 
-    
+# function to get position      
 def poseCallback(pose_message):
     global x
     global y, yaw
     x= pose_message.pose.pose.position.x
     y= pose_message.pose.pose.position.y
 
+# function to get audio input using microphone as source
 def get_audio():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         audio = r.listen(source)
         text = ""
         try:
-            text = r.recognize_google(audio)
+            text = r.recognize_google(audio) # using google API
             print(text)
         except:
             print("Unrecognizeable")
     return text
 
-
+# make a list of each words and phrasing audio input into string data; return the direction as string value
 def phrasing_audio_direction():
     text_lst_direction = ""
     direction = ""
@@ -133,21 +135,22 @@ def phrasing_audio_direction():
             determine_direction = False
             return direction  
         else:
-            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN, error: 1")
+            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
             determine_direction = True
 
+# make a list of each words and phrasing audio input into string data and check whether it is convertable into int; return the data as string data
 def phrasing_audio_distance():
     text_lst_distance = ""
     distance = ""
     determine_distance = True
-    max_distance = 3 #declare max distance
+    max_distance = 3 # declare max distance
 
     while determine_distance: 
         print("Give distance value (number):")
         text_lst_distance = get_audio()
 
         if isinstance(text_lst_distance, str) == True and str.isdigit(text_lst_distance) == False: # check if text_lst_distance recieve any string and if it can be converted to an int
-            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN, error: 2")
+            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
             determine_distance = True
 
         elif  int(text_lst_distance) < max_distance: # text_lst_distance must recieve string value that is able to be converted to an int
@@ -157,13 +160,14 @@ def phrasing_audio_distance():
             return distance
 
         else:
-            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN, error: 3")
+            print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
             determine_distance = True
 
+# function to move the robot based on audio input
 def move():
-        #declare a Twist message to send velocity commands
+        # declare a Twist message to send velocity commands
         msg = Twist()
-        #get current location 
+        # get current location 
         global x, y, speed
         x0=x
         y0=y
@@ -184,20 +188,20 @@ def move():
         loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
         cmd_vel_topic = '/cmd_vel'
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
-
+        # loop to keep publishing massages and calculate the position difference
         while True :
                 rospy.loginfo("youBot move: " + direction +" for " + distance + " m")
                 velocity_publisher.publish(msg)
 
                 loop_rate.sleep()
-                
+                # calculate the distance between current and initial position
                 distance_moved = abs(0.5 * math.sqrt(((x-x0) ** 2) + ((y-y0) ** 2)))
                 print(distance_moved)               
-                if  not (distance_moved < int(distance)):
+                if  not (distance_moved < int(distance)): # distance(str) will be converted into int
                     rospy.loginfo("reached")
                     break
         
-        #finally, stop the robot when desiered distance reached
+        # finally, stop the robot when desiered distance reached
         msg.linear.x =0
         msg.linear.y =0
         velocity_publisher.publish(msg)

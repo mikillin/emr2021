@@ -45,24 +45,24 @@
 # $ roslaunch youbot_emr_simulation_empty_gazebo.launch
 
 ######################################################################
-
+# import all required libraries
 import speech_recognition as sr
 from geometry_msgs.msg import Twist
 import rospy
 import time
-
+# define initial position of the robot
 x=0
 y=0
-
+# initiate ros node
 def init():
     global msg, velocity_publisher
-
+    # define initial speed to zero
     msg = Twist()
     msg.linear.x = 0
     msg.linear.y = 0
     msg.angular.x = 0
     msg.angular.y = 0
-
+    # create ros node
     try:
         
         rospy.init_node('se_youbot', anonymous=True)
@@ -76,19 +76,20 @@ def init():
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
 
+# function to get audio input using microphone as source
 def get_audio():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         audio = r.listen(source)
         text = ""
         try:
-            text = r.recognize_google(audio)
+            text = r.recognize_google(audio) # using google API
             print(text)
         except:
             print("Unrecognizeable")
     return text
 
-
+# make a list of each words and phrasing audio input into string data; return the direction as string value
 def phrasing_audio_direction():
     text_lst_direction = ""
     direction = ""
@@ -131,6 +132,7 @@ def phrasing_audio_direction():
             print("UNABLE TO RECOGNIZE COMMAND TRY AGAIN")
             determine_direction = True
 
+# function to move the robot based on audio input
 def move():
         # declare a Twist message to send velocity commands
         msg = Twist()
@@ -144,13 +146,12 @@ def move():
         loop_rate = rospy.Rate(10) # we publish the velocity at 10 Hz (10 times a second)    
         cmd_vel_topic = '/cmd_vel'
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
-
+        # keep publishing value until new input has been received
         while True :
                 rospy.loginfo("youBot move: " + direction)
                 velocity_publisher.publish(msg)
-
                 loop_rate.sleep()
-                direction = phrasing_audio_direction()
+                direction = phrasing_audio_direction() # get the direction
                 if direction == 'forward':
                     msg.linear.x = abs(speed)
                     msg.linear.y = 0
